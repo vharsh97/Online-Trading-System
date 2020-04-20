@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./db/db");
+const db = require("./src/app/db/db");
 const dotenv = require("dotenv");
-const index = require("./Route/index");
+const index = require("./src/app/Route/index");
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/broker", index.stockBrokerRoute);
-// app.use("/stock", index.categoryRoute);
+app.use("/stock", index.stockRoute);
 // app.use("/product", index_1.productRoute);
 
 app.listen(process.env.PORT || 3000, () => {

@@ -6,10 +6,6 @@ const bcryptjs = require("bcryptjs");
 const salt_Round = process.env.SALT_ROUND;
 
 let StockBrokerSchema = new mongoose.Schema({
-    // brokerId: {
-    //     type: ObjectId,
-    //     required: true
-    // },
     firstName: {
         type: String,
         trim: true,

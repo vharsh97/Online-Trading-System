@@ -44,13 +44,19 @@ class StockBrokerController {
                 lastName: req.body.lastName,
                 mobile: req.body.mobile,
                 account: req.body.account
+            },
+            $push: {
+                portfolio: {
+                    $each: [new StockBroker.Invoice(req.body.stock)],
+                    $position: -1
+                }
             }
         }, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Pofile Updated!', data: null });
+                res.json({ status: 'success', message: 'Profile Updated!', data: null });
             }
         });
     }

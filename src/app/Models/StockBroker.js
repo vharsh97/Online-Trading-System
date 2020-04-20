@@ -5,6 +5,21 @@ const bcryptjs = require("bcryptjs");
 
 const salt_Round = process.env.SALT_ROUND;
 
+const BookStockSchema = new mongoose.Schema({
+    stockId: {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+    totalPrice: {
+        type: Number,
+        required: true
+    }
+});
+
 let StockBrokerSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -40,7 +55,11 @@ let StockBrokerSchema = new mongoose.Schema({
         trim: true,
         required: true,
         default: 0
-    }
+    },
+    Portfolio: [{
+        type: BookStockSchema,
+        trim: true
+    }]
 });
 StockBrokerSchema.pre('save', function (next) {
     const broker = this;
@@ -62,4 +81,5 @@ StockBrokerSchema.pre('save', function (next) {
         next();
     }
 });
+exports.Invoice = mongoose.model('Invoice', BookStockSchema);
 exports.Broker = mongoose.model('Broker', StockBrokerSchema);

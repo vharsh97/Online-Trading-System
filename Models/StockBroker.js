@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const bcryptjs = require("bcryptjs");
-const ObjectId = mongoose.Schema.Types.ObjectId;
+// const ObjectId = mongoose.Schema.Types.ObjectId;
 
 
 const salt_Round = process.env.SALT_ROUND;
 
 let StockBrokerSchema = new mongoose.Schema({
-    brokerId: {
-        type: ObjectId,
-        required: true
-    },
+    // brokerId: {
+    //     type: ObjectId,
+    //     required: true
+    // },
     firstName: {
         type: String,
         trim: true,
@@ -35,18 +35,20 @@ let StockBrokerSchema = new mongoose.Schema({
     mobile: {
         type: String,
         trim: true,
-        required: true
-    },
-    dob: {
-        type: Date,
-        trim: true,
-        required: true
+        required: true,
+        maxlength: 10
     },
     password: {
         type: String,
         required: true,
         trim: true,
         maxlength: 12
+    },
+    role: {
+        type: String,
+        trim: true,
+        required: true,
+        default: 'Broker'
     }
 });
 StockBrokerSchema.pre('save', function (next) {

@@ -1,4 +1,4 @@
-const StockBroker = require("../models/StockBroker");
+const StockBroker = require("../Models/StockBroker");
 const bcryptjs = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 
@@ -13,7 +13,7 @@ class StockBrokerController {
                 if (result != undefined) {
                     if (bcryptjs.compareSync(req.body.password, result.password)) {
                         const token = jsonwebtoken.sign({ id: result._id }, private_key, { expiresIn: '1h' });
-                        res.json({ status: 'success', message: 'Login Success!', data: token });
+                        res.json({ status: 'success', message: 'Login Success!', data: token, role: result.role });
                     }
                     else {
                         res.json({ status: 'failed', message: 'UserName or Password is incorrect!' });

@@ -1,84 +1,56 @@
-const Stock = require("../models/Stock");
+const Stock_1 = require("../Models/Stock");
 
 class StockController {
-    static getProducts(req, res, next) {
-        Product_1.Product.find({}, (err, result) => {
+    static getStocks(req, res, next) {
+        Stock_1.Stock.find({}, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Products found!', data: result });
+                res.json({ status: 'success', message: 'Stock found!', data: result });
             }
         });
     }
-    static getProductById(req, res, next) {
-        const productId = req.params.id;
-        Product_1.Product.findById(productId, (err, result) => {
+    static getStockById(req, res, next) {
+        const stockId = req.params.id;
+        Stock_1.Stock.findById(stockId, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Product found!', data: result });
+                res.json({ status: 'success', message: 'Stock Found!', data: result });
             }
         });
     }
-    static addProduct(req, res, next) {
-        req.body.imageUrl = process.env.IMAGE_BASE_PATH + req.file.originalname;
-        const product = new Product_1.Product(req.body);
-        Product_1.Product.create(product, (err, result) => {
+    static addStock(req, res, next) {
+        const stock = new Stock_1.Stock(req.body);
+        Stock_1.Stock.create(stock, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Product Added!', data: result });
+                res.json({ status: 'success', message: 'stock Added!', data: result });
             }
         });
     }
-    static getProductByCategory(req, res, next) {
-        const category = req.body.category;
-        let productCount = 0;
-        Product_1.Product.find().estimatedDocumentCount().exec((err, result) => {
-            productCount = result;
-            Product_1.Product.find({ category: category }, (err, result) => {
-                if (err) {
-                    res.status(500).json({ status: 'failed', message: err });
-                }
-                else {
-                    res.json({ status: 'success', message: 'Products Found!', data: result, count: productCount });
-                }
-            });
-        });
-    }
-    static updateProduct(req, res, next) {
-        Product_1.Product.findByIdAndUpdate(req.body._id, {
+    static updateStock(req, res, next) {
+        Stock_1.Stock.findByIdAndUpdate(req.body._id, {
             $set: {
-                description: req.body.description,
-                price: req.body.price,
-                outOfStock: req.body.outOfStock
+                stockId: req.body.stockId,
+                stockName: req.body.stockName,
+                openPrice: req.body.openPrice,
+                closePrice: req.body.closePrice,
+                currentPrice: req.body.currentPrice,
+                quantity: req.body.quantity
             }
         }, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Product Updated!', data: result });
+                res.json({ status: 'success', message: 'Stock Updated!', data: result });
             }
         });
     }
-    static searchProduct(req, res, next) {
-        const productName = req.body.productName;
-        let productCount = 0;
-        Product_1.Product.find().estimatedDocumentCount().exec((err, result) => {
-            productCount = result;
-            Product_1.Product.find({ productName: { $regex: productName, $options: 'i' } }, (err, result) => {
-                if (err) {
-                    res.status(500).json({ status: 'failed', message: err });
-                }
-                else {
-                    res.json({ status: 'success', message: 'Product List Found!', data: result, count: productCount });
-                }
-            });
-        });
-    }
 }
-exports.ProductController = ProductController;
+exports.StockController = StockController;

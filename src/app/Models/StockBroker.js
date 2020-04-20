@@ -16,12 +16,6 @@ let StockBrokerSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
-    email: {
-        type: String,
-        trim: true,
-        required: true,
-        unique: true
-    },
     sensexRegId: {
         type: String,
         trim: true,
@@ -29,10 +23,11 @@ let StockBrokerSchema = new mongoose.Schema({
         unique: true
     },
     mobile: {
-        type: String,
+        type: Number,
         trim: true,
         required: true,
-        maxlength: 10
+        maxlength: 10,
+        minlength: 10
     },
     password: {
         type: String,
@@ -40,11 +35,11 @@ let StockBrokerSchema = new mongoose.Schema({
         trim: true,
         maxlength: 12
     },
-    role: {
-        type: String,
+    account: {
+        type: Number,
         trim: true,
         required: true,
-        default: 'Broker'
+        default: 0
     }
 });
 StockBrokerSchema.pre('save', function (next) {

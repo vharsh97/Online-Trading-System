@@ -5,7 +5,7 @@ const jsonwebtoken = require("jsonwebtoken");
 class StockBrokerController {
     static login(req, res, next) {
         const private_key = process.env.PRIVATEKEY || '';
-        StockBroker.Broker.findOne({ email: req.body.email }, (err, result) => {
+        StockBroker.Broker.findOne({ sensexRegId: req.body.sensexRegId }, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });
             }
@@ -13,7 +13,7 @@ class StockBrokerController {
                 if (result != undefined) {
                     if (bcryptjs.compareSync(req.body.password, result.password)) {
                         const token = jsonwebtoken.sign({ id: result._id }, private_key, { expiresIn: '1h' });
-                        res.json({ status: 'success', message: 'Login Success!', data: token, role: result.role });
+                        res.json({ status: 'success', message: 'Login Success!', data: token, account: result.account });
                     }
                     else {
                         res.json({ status: 'failed', message: 'UserName or Password is incorrect!' });
@@ -41,7 +41,9 @@ class StockBrokerController {
         StockBroker.Broker.findByIdAndUpdate(brokerId, {
             $set: {
                 firstName: req.body.firstName,
-                lastName: req.body.lastName
+                lastName: req.body.lastName,
+                mobile: req.body.mobile,
+                account: req.body.account
             }
         }, (err, result) => {
             if (err) {
@@ -59,7 +61,7 @@ class StockBrokerController {
                 res.status(500).json({ status: 'failed', message: err });
             }
             else {
-                res.json({ status: 'success', message: 'Pofile fetched successfully!', data: result });
+                res.json({ status: 'success', message: 'Profile fetched successfully!', data: result });
             }
         });
     }

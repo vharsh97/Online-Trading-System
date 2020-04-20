@@ -46,11 +46,27 @@ class StockBrokerController {
                 account: req.body.account
             },
             $push: {
-                portfolio: {
-                    $each: [new StockBroker.Invoice(req.body.stock)],
-                    $position: -1
-                }
+                portfolio: new StockBroker.Invoice(req.body.stock)
             }
+        }, (err, result) => {
+            if (err) {
+                res.status(500).json({ status: 'failed', message: err });
+            }
+            else {
+                res.json({ status: 'success', message: 'Profile Updated!', data: null });
+            }
+        });
+    }
+    static insertInvoice(req, res, next) {
+        console.log(req)
+        StockBroker.Broker.findByIdAndUpdate(req.body.brokerId, {
+            $push: {
+                Portfolio: new StockBroker.Invoice(req.body.stock)
+            }
+        },
+        {
+            safe: true, 
+            upsert: true
         }, (err, result) => {
             if (err) {
                 res.status(500).json({ status: 'failed', message: err });

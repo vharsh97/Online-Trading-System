@@ -7,3 +7,4 @@ exports.stockBrokerRoute.get('/', auth.validatebroker, stockBrokerController.Sto
 exports.stockBrokerRoute.post("/login", stockBrokerController.StockBrokerController.login);
 exports.stockBrokerRoute.post("/registration", stockBrokerController.StockBrokerController.registration);
 exports.stockBrokerRoute.put("/", auth.validatebroker, stockBrokerController.StockBrokerController.updateProfile);
+exports.stockBrokerRoute.put("/buy", auth.validatebroker, stockBrokerController.StockBrokerController.insertInvoice);

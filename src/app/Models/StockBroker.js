@@ -58,7 +58,7 @@ let StockBrokerSchema = new mongoose.Schema({
     },
     Portfolio: [{
         type: BookStockSchema,
-        trim: true
+        // trim: true
     }]
 });
 StockBrokerSchema.pre('save', function (next) {
